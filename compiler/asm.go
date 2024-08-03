@@ -45,5 +45,5 @@ func GetLoopLabel(loopCount uint) string {
 }
 
 func GetLoopCheck(loopCount uint) string {
-	return fmt.Sprint("cmp byte [rsi], 0\njne .L%v\n", loopCount)
+	return fmt.Sprintf("cmp byte [rsi], 0\njne .L%v\n", loopCount)
 }

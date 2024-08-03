@@ -39,11 +39,11 @@ func CompileBrainfuck(code []byte) error {
 	}
 
 	// clean build files
-	cmd = exec.Command("sh", "-c", AsmCleanCommand)
-	err = cmd.Run()
-	if err != nil {
-		return err
-	}
+	//cmd = exec.Command("sh", "-c", AsmCleanCommand)
+	//err = cmd.Run()
+	//if err != nil {
+	//	return err
+	//}
 
 	// if no errors return nil
 	return nil
@@ -76,9 +76,8 @@ func assembleBrainfuck(rawCode string) string {
 			assemblyBuilder.WriteString(GetLoopLabel(loopCount))
 			loopCount++
 		case ']':
-			assemblyBuilder.WriteString(GetLoopCheck(loopCount - 1))
 			loopCount--
-		default: continue
+			assemblyBuilder.WriteString(GetLoopCheck(loopCount))
 		}
 	}
 
@@ -96,7 +95,7 @@ func filterString(str string, whitelist string) string {
 
 	var result strings.Builder
 
-	for _, char := range whitelist {
+	for _, char := range str {
 		if _, found := allowed[char]; found {
 			result.WriteRune(char)
 		}
