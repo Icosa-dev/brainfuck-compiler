@@ -39,11 +39,11 @@ func CompileBrainfuck(code []byte) error {
 	}
 
 	// clean build files
-	//cmd = exec.Command("sh", "-c", AsmCleanCommand)
-	//err = cmd.Run()
-	//if err != nil {
-	//	return err
-	//}
+	cmd = exec.Command("sh", "-c", AsmCleanCommand)
+	err = cmd.Run()
+	if err != nil {
+		return err
+	}
 
 	// if no errors return nil
 	return nil
