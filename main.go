@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-  asmFlag     := flag.Bool("asm", false, "outputs the assembly file")
-  nocleanFlag := flag.Bool("noclean", false, "compiles the executable and keeps the intermediate object and assembly file")
+  asmFlag     := flag.Bool("asm", false, "outputs only the assembly file")
+  nocleanFlag := flag.Bool("noclean", false, "compiles the executable and keeps the intermediate object and assembly files")
   iFlag       := flag.String("i", "", "input file")
 
   flag.Parse()

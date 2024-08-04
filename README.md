@@ -18,9 +18,9 @@ go build -o bfcompiler main.go
 ```
 Usage of ./bfcompiler:
   -asm
-    	outputs the assembly file
+    	outputs only the assembly file
   -i string
     	input file
   -noclean
-    	compiles the executable and keeps the intermediate object and assembly file
+    	compiles the executable and keeps the intermediate object and assembly files
 ```
