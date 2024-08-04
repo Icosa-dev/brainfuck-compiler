@@ -16,5 +16,11 @@ go build -o bfcompiler main.go
 
 ## Usage
 ```
-Usage: bfcompiler <input-file>
+Usage of ./bfcompiler:
+  -asm
+    	outputs the assembly file
+  -i string
+    	input file
+  -noclean
+    	compiles the executable and keeps the intermediate object and assembly file
 ```

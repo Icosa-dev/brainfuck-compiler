@@ -4,20 +4,39 @@ import (
 	"fmt"
 	"bfcompiler/compiler"
 	"os"
+  "flag"
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("Error: no input file")
-	}
+  asmFlag     := flag.Bool("asm", false, "outputs the assembly file")
+  nocleanFlag := flag.Bool("noclean", false, "compiles the executable and keeps the intermediate object and assembly file")
+  iFlag       := flag.String("i", "", "input file")
 
-	inputFile, err := os.ReadFile(os.Args[1])
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
+  flag.Parse()
+  
+  inputFile, err := os.ReadFile(*iFlag)
+  if err != nil {
+    fmt.Println("Error:", err)
+  }
 
-	err = compiler.CompileBrainfuck(inputFile)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
+  err = compiler.CompileBrainfuck(inputFile)
+  if err != nil {
+    fmt.Println("Error:", err)
+  }
+
+  if *asmFlag {
+    return
+  } else {
+    err = compiler.GenerateExecutable()
+    if err != nil {
+      fmt.Println("Error:", err)
+    }
+
+    if !*nocleanFlag {
+      err = compiler.CleanBuildFiles()
+      if err != nil {
+        fmt.Println("Error:", err)
+      }
+    }
+  }
 }

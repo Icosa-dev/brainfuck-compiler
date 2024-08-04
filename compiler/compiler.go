@@ -24,9 +24,13 @@ func CompileBrainfuck(code []byte) error {
 		return err
 	}
 
+  return nil
+}
+
+func GenerateExecutable() error {
 	// assemble object file
 	cmd := exec.Command("sh", "-c", AsmAssembleCommand)
-	err = cmd.Run()
+  err := cmd.Run()
 	if err != nil {
 		return err
 	}
@@ -38,15 +42,17 @@ func CompileBrainfuck(code []byte) error {
 		return err
 	}
 
-	// clean build files
-	cmd = exec.Command("sh", "-c", AsmCleanCommand)
-	err = cmd.Run()
+  return nil
+}
+
+func CleanBuildFiles() error {
+  cmd := exec.Command("sh", "-c", AsmCleanCommand)
+  err := cmd.Run()
 	if err != nil {
 		return err
 	}
-
-	// if no errors return nil
-	return nil
+  
+  return nil
 }
 
 func assembleBrainfuck(rawCode string) string {
