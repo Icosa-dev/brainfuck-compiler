@@ -1,32 +1,48 @@
 module Main where
 
-import System.Environment
+import Options.Applicative
+
 import Compiler
+import Parser
 
 main :: IO ()
-main = do
-  args <- getArgs
-  if (length args) < 1
-    then do
-        putStrLn "Error: no input file given"
-        return ()
-    else do
-        let inputFile = args !! 0
-        fileContents <- readFile inputFile
+main = do 
+  opts <- execParser optParser
 
-        writeAssemblyFile $ assembleBrainfuck fileContents
+  let inputFile = optInput opts
+  contents <- readFile inputFile 
 
-        assemblyResult <- assembleObject
-        case assemblyResult of
-          Nothing  -> return ()
-          Just err -> putStrLn err
+  writeAssemblyFile $ assembleBrainfuck contents
 
-        linkResult <- linkExecutable
-        case linkResult of
-          Nothing  -> return ()
-          Just err -> putStrLn err
+  let runAssemble = not (optAsm opts)
+      runClean    = not (optAsm opts) && optClean opts 
 
-        cleanResult <- cleanBuildFiles
-        case cleanResult of
-          Nothing  -> return ()
-          Just err -> putStrLn err
+  assembleResult <- if runAssemble
+                      then assembleObject 
+                      else return Nothing
+  
+  linkResult    <- if runAssemble
+                      then linkExecutable
+                      else return Nothing
+
+  cleanResult   <- if runClean 
+                      then cleanBuildFiles
+                      else return Nothing
+
+  case assembleResult of
+    Nothing  -> return ()
+    Just err -> putStrLn err 
+
+  case linkResult of
+    Nothing  -> return ()
+    Just err -> putStrLn err 
+
+  case cleanResult of
+    Nothing  -> return ()
+    Just err -> putStrLn err
+
+  where 
+    optParser = info (parseOptions <**> helper)
+      (  fullDesc
+      <> progDesc "A basic brainfuck compiler written in haskell"
+      <> header "Brainfuck Compiler (bfc)")

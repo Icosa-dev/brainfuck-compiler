@@ -54,7 +54,7 @@ extra-doc-files:    CHANGELOG.md
 common warnings
     ghc-options: -Wall
 
-executable brainfuck-compiler
+executable bfc
     -- Import common warning flags.
     import:           warnings
 
@@ -72,6 +72,7 @@ executable brainfuck-compiler
     -- Other library packages from which modules are imported.
     build-depends:    base ^>=4.17.2.1
                      ,process >= 1.6
+                     ,optparse-applicative
 
     -- Directories containing source files.
     hs-source-dirs:   src
